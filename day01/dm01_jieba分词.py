@@ -133,6 +133,16 @@ def dm03() :
     list4 = jieba.lcut(content, cut_all=True)
     print(f"全模式:{list4}")
 
+# todo 4. : 定义函数，演示jieba分词之繁体字
+def dm04() :
+    # 1. 定义句子，记录要被分词的内容
+    content = '煩惱即是菩提，我暫且不提'
+
+    # 2. 使用jieba进行繁体字分词
+    result = jieba.lcut(content , cut_all = False) # 精确模式
+
+    # 3. 打印结果
+    print(result)
 
 # todo 6. 测试代码
 if __name__ == '__main__':
@@ -141,7 +151,9 @@ if __name__ == '__main__':
     # 2. 测试：jieba的全模式分词
     # dm02()
     # 3. 测试：jieba的 搜索引擎分词
-    dm03()
+    #dm03()
+    # 4. 测试：jieba的繁体字分词
+    dm04()
 
 
 
