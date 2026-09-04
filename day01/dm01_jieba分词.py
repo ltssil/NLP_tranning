@@ -44,20 +44,51 @@ def dm01() :
     print(result1) # <generator object Tokenizer.cut at 0x0000024252472F00>
 
     # 3. 从生成器对象中，获取所有的分词结果
-    # 3.1 思路1：next()函数，逐个获取下个元素
-    print(next(result1))
-    print(next(result1))
-    print(' =·= ' * 10)
+    # # 3.1 思路1：next()函数，逐个获取下个元素
+    # print(next(result1))
+    # print(next(result1))
+    # print(' =·= ' * 10)
+    #
+    # # 3.2 思路2：遍历方式，从生成器中获取元素
+    # for item in result1 :
+    #     print(item)
+    # print(' =·= ' * 10)
 
-    # 3.2 思路2：遍历方式，从生成器中获取元素
-    for item in result1 :
-        print(item)
-    print(' =·= ' * 10)
+def dm02() :
+    # 定义待分词的文本内容
+    content = "投身农牧广阔舞台，解锁无限职业可能，期待你的加入！"
+
+    # 2. 使用jieba进行 精确模式分词(默认模式) -> cut_all = False
+    # result1 : 生成器对象，好处：节省内存，只能便利一次
+    result1 = jieba.cut(content, cut_all=False)
+    print(result1)  # <generator object Tokenizer.cut at 0x0000024252472F00>
+
+    # 3. 从生成器对象中，获取所有的分词结果
+    # 3.1 思路1 : next()函数 ，逐个获取下个元素
+    # print(next(result1))
+    # print(next(result1))
+    # print(' -.- ' * 10)
+
+    # # 3.2 思路2：遍历方式，从生成器中获取元素
+    # for item in result1 :
+    #     print(item)
+    # print(' =·= ' * 10)
+
+    # 4. 如果要列表怎么办？即：[词1,词2,词3...]
+    # 思路1 ： 直接吧上述的生成器转成列表
+    list1 = list(result1)
+    print(list1)
+
+    # 思路2：切词时直接返回 list ， 相当于：语法糖
+    list2 = jieba.lcut(content, cut_all=True)
+    print(list2)
 
 # todo 6. 测试代码
 if __name__ == '__main__':
     # 1. 测试：jieba的精确模式分词
-    dm01()
+    # dm01()
+    # jieba的全模式分词
+    dm02()
 
 
 
