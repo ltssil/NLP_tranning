@@ -54,6 +54,7 @@ def dm01() :
     #     print(item)
     # print(' =·= ' * 10)
 
+# todo 2. 定义函数，演示jieba全模式，适用于：关键词提取，不需要严格分词准确性的场景
 def dm02() :
     # 定义待分词的文本内容
     content = "投身农牧广阔舞台，解锁无限职业可能，期待你的加入！"
@@ -83,13 +84,64 @@ def dm02() :
     list2 = jieba.lcut(content, cut_all=True)
     print(list2)
 
+# todo 3. 定义函数，演示jieba搜索引擎模式，适用于：搜索引擎分词，文本匹配
+"""
+解释：
+    搜索引擎分词模式 -> 在精确分词的基础上对长词进行再次切分，提高召回率
+例如：：
+    场景1：用户录入“程序员”
+        精确模式：只能匹配包含完整“程序员”的文档
+        搜索引擎模式：不仅能匹配“程序员”文档，还能匹配“程序”，“员”的文档，提高召回
+        
+    场景2： 实际应用场景（电商搜索），商品标题为：《苹果手机保护套》，用户搜索《苹果套》
+        精确模式：无法匹配，分词为:（"苹果","手机","保护套")
+        搜索引擎模式：能匹配，分词为：（"苹果","手机","保护","套")
+"""
+def dm03() :
+    # 定义待分词的文本内容
+    content = "投身农牧广阔舞台，解锁无限职业可能，期待你的加入！"
+
+    # 2. 使用jieba进行 搜索引擎模式分词 -> cut_for_search
+    # result1 : 生成器对象，好处：节省内存，只能便利一次
+    result1 = jieba.cut_for_search(content)
+    print(result1)  # <generator object Tokenizer.cut at 0x0000024252472F00>
+
+    # 3. 从生成器对象中，获取所有的分词结果
+    # 3.1 思路1 : next()函数 ，逐个获取下个元素
+    # print(next(result1))
+    # print(next(result1))
+    # print(' -.- ' * 10)
+
+    # # 3.2 思路2：遍历方式，从生成器中获取元素
+    # for item in result1 :
+    #     print(item)
+    # print(' =·= ' * 10)
+
+    # 4. 如果要列表怎么办？即：[词1,词2,词3...]
+    # 思路1 ： 直接吧上述的生成器转成列表
+    list1 = list(result1)
+    print(list1)
+
+    # 思路2：切词时直接返回 list ， 相当于：语法糖
+    list2 = jieba.lcut_for_search(content)
+    print(f'搜索引擎模式:{list2}')
+
+    # 5. 扩展：打印下 精确模式分词，全模式分词，以便和上述的搜索引擎模式进行对比
+    list3 = jieba.lcut(content , cut_all=False)
+    print(f"精确模式:{list3}")
+
+    list4 = jieba.lcut(content, cut_all=True)
+    print(f"全模式:{list4}")
+
 
 # todo 6. 测试代码
 if __name__ == '__main__':
     # 1. 测试：jieba的精确模式分词
     # dm01()
-    # jieba的全模式分词
-    dm02()
+    # 2. 测试：jieba的全模式分词
+    # dm02()
+    # 3. 测试：jieba的 搜索引擎分词
+    dm03()
 
 
 
