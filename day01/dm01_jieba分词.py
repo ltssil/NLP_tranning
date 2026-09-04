@@ -83,6 +83,7 @@ def dm02() :
     list2 = jieba.lcut(content, cut_all=True)
     print(list2)
 
+
 # todo 6. 测试代码
 if __name__ == '__main__':
     # 1. 测试：jieba的精确模式分词
