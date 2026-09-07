@@ -27,8 +27,12 @@
 import jieba.posseg as pseg
 
 # 1. 定义变量， 记录：待分词并标注词性的文本内容
-content = '我爱北京天安门'
+content = '我爱武汉黄鹤楼和东湖'
 
 # 2. 使用jieba进行词性标注
 result = pseg.lcut(content)
 print(f"result: {result}")
+
+# 3. 获取每组数据，即 词 <--> 词性
+for word , flag in result :
+    print(f"词: {word} 词性:{flag}")
