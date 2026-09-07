@@ -73,9 +73,29 @@ def dm01_onehot_generation() :
     print('模型保存成功')
 
 # todo 2. 定义函数， 演示使用 one-hot编码
+def use_one_hot() :
+    # 1. 加载训练好的词汇映射器
+    my_tokenizer = joblib.load('./model/onehot_tokenizer.pkl')
+    # 2. 打印加载的词汇映射器的 word_index 字典，查看词汇和索引的对应关系
+    print(my_tokenizer.word_index)
+    # {'周杰伦': 1, '王力宏': 2, '陈奕迅': 3, '赵磊': 4, '李薇薇': 5, '查成龙': 6}
+    # 3. 对指定词汇进行 one-hot编码
+    token = '赵磊'
+    # 4. 创建长度 = 语料库长度的列表 ， 列表内元素都是0
+    zero_list = [0] * len(my_tokenizer.word_index)
+    # 5. 获取指定词汇在 word_index中的索引 ， 因为索引是从1开始 ， 索引索引要减1
+    idx = my_tokenizer.word_index[token] - 1
+    # 6. 修改对应位置的元素为1 ， 完成one-hot编码
+    zero_list[idx] = 1
+    # 7. 打印结果
+    print(f'{token}你的one-hot编码为:{zero_list}')
 
 # todo 3.（扩展）. one-hot编码的简单版实现方式
 
 # todo 4. 测试代码
 if __name__ == '__main__':
-    dm01_onehot_generation()
+    # 1. 测试获取onehot编码
+    # dm01_onehot_generation()
+
+    # 2. 测试使用onehot编码
+    use_one_hot()
