@@ -43,7 +43,7 @@ import joblib  # 用于对象保存与加载
 # todo 1. 定义函数， 演示获取 one-hot编码
 def dm01_onehot_generation() :
     # 1. 准备语料(人名，模拟：句子切词后的内容）
-    vocabs = {'周杰伦' , '陈奕迅' , '王力宏' , '李宗盛' , '李薇薇' , '查成龙'}
+    vocabs = {'周杰伦' , '陈奕迅' , '王力宏' , '赵磊' , '李薇薇' , '查成龙'}
 
     # 2. 实例化 词汇映射器 Tokenizer
     my_tokenizer = Tokenizer()
@@ -54,6 +54,23 @@ def dm01_onehot_generation() :
     # 4. 打印 word_index字典， 键：歌手名  值：索引（序号）
     # 格式为： {'周杰伦': 1, '王力宏': 2, '查成龙': 3, '李薇薇': 4, '李宗盛': 5, '陈奕迅': 6}
     print(my_tokenizer.word_index)
+    print('-----' * 5)
+
+    # 5. 对每个词（歌手们） 进行 one-hot编码
+    for vocab in vocabs :
+        # 5.1 先创建长度 = 语料库长度的列表 ， 列表内长度都是0
+        zero_list = [0] * len(vocabs)
+        # print(zero_list)
+        # 5.2 获取当前此会在 word_index 中的索引，因为索引是从1开始，所以索引要减1
+        idx = my_tokenizer.word_index[vocab] - 1
+        # 5.3 修改对应位置元素为1，完成one-hot编码
+        zero_list[idx] = 1
+        # 5.4 打印结果
+        print(f'{vocab}的one-hot编码为:{zero_list}')
+
+    # 6. 保存 词汇映射器对象
+    joblib.dump(my_tokenizer , './model/onehot_tokenizer.pkl')
+    print('模型保存成功')
 
 # todo 2. 定义函数， 演示使用 one-hot编码
 
