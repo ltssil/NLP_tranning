@@ -18,9 +18,9 @@
                 词嵌入表示法
 
 one-hot编码：
-    优点：
-    缺点：
-    针对于缺点的解决方案：
+    优点：操作简单，容易理解
+    缺点：完全割裂了词与词之间的联系；大语料集下，每个向量的长度过大，占据大量内存
+    针对于缺点的解决方案：采用稠密向量表示法，例如word2vec 和 word embedding
 """
 
 # Tensorflow 使用了 Intel的 oneDNN(原 MKL-DNN) 优化库 来加速CPU上 深度学习运算
@@ -91,6 +91,24 @@ def use_one_hot() :
     print(f'{token}你的one-hot编码为:{zero_list}')
 
 # todo 3.（扩展）. one-hot编码的简单版实现方式
+def simple_one_hot() :
+    # 1. 准备语料库
+    vocabs = {'周杰伦', '陈奕迅', '王力宏', '赵磊', '李薇薇', '查成龙'}
+
+    # 2. 构建词汇 到 索引 的映射关系（字典）
+    word2index = {vocab : i for i , vocab in enumerate(vocabs)}
+    print(word2index)        # {'陈奕迅': 0, '赵磊': 1, '王力宏': 2, '李薇薇': 3, '查成龙': 4, '周杰伦': 5}
+
+    # 3. 对每个词汇进行 one-hot编码
+    for vocab in vocabs :
+        # 3.1 初始化全0列表， 长度 = 语料库长度
+        zero_list = [0] * len(vocabs)
+        # 3.2 获取当前词汇的索引
+        idx = word2index[vocab]
+        # 3.3 修改对应位置的元素为1，完成one-hot编码
+        zero_list[idx] = 1
+        # 3.4 打印结果
+        print(f'{vocab}的one-hot编码为:{zero_list}')
 
 # todo 4. 测试代码
 if __name__ == '__main__':
@@ -98,4 +116,7 @@ if __name__ == '__main__':
     # dm01_onehot_generation()
 
     # 2. 测试使用onehot编码
-    use_one_hot()
+    # use_one_hot()
+
+    # 3. 测试使用one-hot编码的简单版
+    simple_one_hot()
