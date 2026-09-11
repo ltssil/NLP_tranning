@@ -45,9 +45,24 @@ def dm02_get_word_vector() :
     print(f'shape:{results.shape}')     # (100,)
     print(f'result:{results}')          # 具体的词向量值
 
+# todo 3. 定义函数 实现：查看单词的相似度（即：找单词的近义词） -> 模型的效果检验
+def dm03_get_similarity() :
+    # 1. 加载预训练的fasttext模型
+    model = fasttext.load_model('./model/wh02_fil9.bin')
+
+    # 2. 查找某个单词的近义词
+    # 默认是10个，可以用于：检验模型的语义理解能力
+    # 返回的结果格式为：[(相似度分数,近义词),(相似度分数,近义词),(相似度分数,近义词)...]
+    result = model.get_nearest_neighbors('dog')
+
+    # 3. 输出结果
+    print(f'result:{result}')
+
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试：训练向量模型，并保存模型
     # dm01_train_save()
     # 2. 测试：加载模型，并预测
-    dm02_get_word_vector()
+    # dm02_get_word_vector()
+    # 3. 测试:查看单词的相似度（即：找单词的近义词） -> 模型的效果检验
+    dm03_get_similarity()
