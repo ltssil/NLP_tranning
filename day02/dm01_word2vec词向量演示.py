@@ -58,6 +58,25 @@ def dm03_get_similarity() :
     # 3. 输出结果
     print(f'result:{result}')
 
+# todo 4. 定义函数 实现：模型超参数设定
+def dm04_set_hyper_parameter() :
+    # 1. 回顾 直接开始训练，用默认参数
+    # my_model = fasttext.load_model('./model/wh02_fil9.bin')
+
+    # 2. 模型超参数设定 -> 手动调整参数
+    my_model = fasttext.train_unsupervised(
+        input='./data/wh02ad',                # 训练数据的路径
+        model='cbow',                       # 词向量模型：CBOW，skipgram
+        dim=50,                             # 词向量的纬度
+        epoch=1,                            # 训练轮数
+        lr=0.01,                            # 学习率
+        thread=10,                         # 线程数
+    )
+
+    # 3. 保存模型为 -> 二进制文件，后续可以通过 fasttext.load_model() 加载模型
+    my_model.save_model('./model/wh02_fil9_new.bin')
+    print('训练完毕，模型保存成功')
+
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试：训练向量模型，并保存模型
@@ -65,4 +84,6 @@ if __name__ == '__main__':
     # 2. 测试：加载模型，并预测
     # dm02_get_word_vector()
     # 3. 测试:查看单词的相似度（即：找单词的近义词） -> 模型的效果检验
-    dm03_get_similarity()
+    # dm03_get_similarity()
+    # 4. 测试：模型超参数设定
+    dm04_set_hyper_parameter()
