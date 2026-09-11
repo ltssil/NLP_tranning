@@ -32,8 +32,22 @@ def dm01_train_save() :
     my_model.save_model('./model/wh02_fil9.bin')
     print("训练完毕，模型保存成功")
 
+# todo 2. 定义函数 实现：加载模型，并预测
+def dm02_get_word_vector() :
+    # 1. 加载预训练的fasttext模型
+    model = fasttext.load_model('./model/wh02_fil9.bin')
+
+    # 2. 获取单个词的词向量表示
+    results = model.get_word_vector('the')
+
+    # 3. 打印结果
+    print(f'type:{type(results)}')      # Numpy数组
+    print(f'shape:{results.shape}')     # (100,)
+    print(f'result:{results}')          # 具体的词向量值
 
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试：训练向量模型，并保存模型
-    dm01_train_save()
+    # dm01_train_save()
+    # 2. 测试：加载模型，并预测
+    dm02_get_word_vector()
