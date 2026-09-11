@@ -72,6 +72,7 @@ def dm04_set_hyper_parameter() :
         lr=0.01,                            # 学习率
         thread=10,                         # 线程数
     )
+
     # 3. 保存模型为 -> 二进制文件，后续可以通过 fasttext.load_model() 加载模型
     my_model.save_model('./model/wh02_fil9_new.bin')
     print('训练完毕，模型保存成功')
