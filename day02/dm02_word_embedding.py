@@ -7,6 +7,13 @@
         先办证，后干活，会先训练出词向量(模型)，后续再代入模型进行其他操作
     word Embedding :
         边办证，边干活，训练过程中，词向量会自动生成 -> RNN的词嵌入层
+
+细节：如果要看TensorBoard的可视化（本质就是一个PCA主成分分析），代码写完后，按如下操作
+    step1 : 切换到 nlpbase
+    step2 : 切换到当前项目路径下(day02)，即runs文件夹父目录
+    step3 : 运行如下命令
+        tensorboard --logdir=runs --host 0.0.0.0
+    step4 : 通过 localhost:6006访问
 """
 
 # 导包
@@ -74,6 +81,33 @@ def dm01_embedding_show() :
     # 5.2 查看 词嵌入层的权重参数（即：词向量)
     print(f'embed: {embed.weight.data}' )
     print(f'embed.shape: {embed.weight.data.shape}' )       # torch.Size([20,8])
+
+    # 6. 词向量可视化
+    # 6.1 创建TensorBoard写入器，将数据写到 runs目录
+    my_summary = SummaryWriter(log_dir='./runs')
+
+    # 6.2 将词向量和对应的词语 添加到 TensorBoard 中
+    my_summary.add_embedding(embed.weight.data , my_token_list)
+    """
+        :param1 词向量矩阵，形状是：（20 , 8），20个词 每个词用8维的词向量表示
+        :param2 对应的词语列表，用来标注每个点
+    """
+
+    # 6.3 关闭写入器
+    my_summary.close()
+
+    # 7. 查看每个单词对应的词向量
+    for idx in range(len(my_tokenizer.word_index)): # idx的范围 [0 , 20)
+        # 7.1 获取当前单词对应的词向量
+        temp_vector = embed(torch.tensor(idx))
+        print(f'词向量{temp_vector}')
+        """tensor([ 0.5368,  1.3324, -0.8210, -0.3131, -0.4426, -0.0860,  0.5774, -0.5623],grad_fn=<EmbeddingBackward0>)"""
+
+        # 7.2 获取当前索引对应的单词 my_tokenizer.index_word的索引从1开始
+        word = my_tokenizer.index_word[idx + 1]
+        print(f'单词:{word} , 词向量: {temp_vector.detach().numpy()}')
+
+
 
 # todo 2. 测试代码
 if __name__ == '__main__':
