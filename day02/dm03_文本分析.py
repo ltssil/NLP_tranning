@@ -175,7 +175,7 @@ def get_word_cloud(keywords_list) :
     )
 
     # 2. 将关键词列表 -> 转换为 空格分割的字符串，适配词云输入格式
-    keywords_str = ''.join(keywords_list)
+    keywords_str = ' '.join(keywords_list)
     # 3. 根据关键词字符串，生成次元
     wordcloud.generate(keywords_str)
 
@@ -193,6 +193,25 @@ def get_word_cloud(keywords_list) :
     # 4.4 显示图像
     plt.show()
 
+# todo 5.3 定义函数，实现：训练集和测试集的 高频形容词词云
+def dm05_word_cloud() :
+    # 场景1 ： 处理训练集
+    # 1. 读取训练集
+    train_data = pd.read_csv('data/train.tsv' , sep = '\t')
+    # 2. 处理 训练集的 正样本(label = 1)  -> 生成词云
+    # 2.1 筛选label=1的样本，并提取句子列
+    p_train_data = train_data[train_data['label'] == 1]['sentence']
+
+    # 2.2 对每个正样本句子，提取形容词列表，并合并为1个完整的形容词列表
+    p_a_train_vocab = chain(*map(lambda x : get_a_list(x) , p_train_data))      # [形容词1 ， xxx2....]
+
+    # 2.3 调用词云函数，根据形容词列表，绘制词云
+    get_word_cloud(p_a_train_vocab)
+
+    # 分隔符
+    print("---" * 20)
+
+
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试：训练集 和 测试集的 标签分布的 可视化统计
@@ -208,4 +227,4 @@ if __name__ == '__main__':
     # dm04_get_word_count()
 
     # 5. 测试： 训练集 和 测试集 的高频形容词词云
-    get_a_list()
+    dm05_word_cloud()
