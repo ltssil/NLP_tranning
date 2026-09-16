@@ -195,7 +195,7 @@ def get_word_cloud(keywords_list) :
 
 # todo 5.3 定义函数，实现：训练集和测试集的 高频形容词词云
 def dm05_word_cloud() :
-    # 场景1 ： 处理训练集
+    # 场景1 ： 处理训练集  -> 正样本
     # 1. 读取训练集
     train_data = pd.read_csv('data/train.tsv' , sep = '\t')
     # 2. 处理 训练集的 正样本(label = 1)  -> 生成词云
@@ -211,6 +211,16 @@ def dm05_word_cloud() :
     # 分隔符
     print("---" * 20)
 
+    # 场景2: 处理 训练集 -> 负样本
+    # 2. 处理 训练集的 负样本(label = 0)  -> 生成词云
+    # 2.1 筛选label=0的样本，并提取句子列
+    p_train_data = train_data[train_data['label'] == 0]['sentence']
+
+    # 2.2 对每个负样本句子，提取形容词列表，并合并为1个完整的形容词列表
+    p_a_train_vocab = chain(*map(lambda x: get_a_list(x), p_train_data))  # [形容词1 ， xxx2....]
+
+    # 2.3 调用词云函数，根据形容词列表，绘制词云
+    get_word_cloud(p_a_train_vocab)
 
 # todo n. 测试代码
 if __name__ == '__main__':
