@@ -24,11 +24,49 @@ def dm01_map() :
     result2 = list(map(lambda x : x + 2 , [10 , 20 , 30]))
     print(f"result2 : {result2}")       # result2 : <map object at 0x00000211A4F688E0>
 
+# 需求2 ： 演示chain()函数的用法
+# 导包
+from itertools import chain
+import jieba
 
+# todo 1. 测试chain()函数的用法
+def dm02_chain() :
+    # 1. 定义两个列表
+    list1 = [1 , 2 , 3]
+    list2 = [1 , 2 , 3 , 4]
 
+    # 2. chain(): 他是"惰性"的，即：创建chain()对象时，不会立即遍历底层的可迭代对象，只有在实际迭代(例如：转列表，遍历打印等)时，才会逐个获取元素，节省内存
+    # 一旦迭代完毕，再次迭代同一个chain对象，不会得到数据，因为迭代器的元素已经耗尽
+    result = chain(list1, list2)
+    print(f'result : {result}')         # result : <itertools.chain object at 0x000001F5961450F0>
+    print(f'result : list({result})')
 
+    # chain()函数，有点类似于 : list1.extend(list2)
+    # list1.extend(list2)
+    # print(f'result2 : {list1}')
+
+    # 3. 重新定义列表，记录两个句子
+    list1 = ['今天天气很好' , '今天天很热']
+    # 4. 对上述两个例子进行切词
+    tmp_list = map(lambda x : jieba.lcut(x), list1)
+    # print(f'tmp_list : {tmp_list}')             # <map object at 0x000001C3D4AA4CA0>
+    # print(f'tmp_list : {list(tmp_list)}')       # tmp_list : [['今天天气', '很', '好'], ['今天', '天', '很', '热']]
+
+    # 5. 用chain()函数链接两个列表 ， 这里的 * 意思是 告诉函数 ： 把后面的参数，逐个取出来，拼接到前面
+    # result = list(chain(*tmp_list))     # 不会去重
+    # print(f'result : {result}')
+    # result = set(chain(*tmp_list))      # 会去重
+    # print(f'result : {result}')
+
+    # 6. 合并版
+    list1 = ['今天天气很好' , '今天天很热']
+    result = set(chain(*map(lambda x : jieba.lcut(x), list1)))
+    print(f'result : {result}')
 
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试map()函数的用法
-    dm01_map()
+    # dm01_map()
+
+    # 2. 测试chain()函数的用法
+    dm02_chain()
