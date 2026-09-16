@@ -165,6 +165,34 @@ def get_a_list(text) :
     # 4. 返回列表
     return a_list
 
+# todo 5.2 定义函数，根据词云列表产生 词云图
+def get_word_cloud(keywords_list) :
+    # 1. 实例化词云生成器，设置字体路径，最大显示数，背景色
+    wordcloud = WordCloud(
+        font_path='./data/SimHei.ttf',      # 字体
+        max_words=100,                      # 最大显示数
+        background_color='white',           # 背景色
+    )
+
+    # 2. 将关键词列表 -> 转换为 空格分割的字符串，适配词云输入格式
+    keywords_str = ''.join(keywords_list)
+    # 3. 根据关键词字符串，生成次元
+    wordcloud.generate(keywords_str)
+
+    # 4. 配置并显示词云图像
+    # 4.1 创建新的绘图窗口
+    plt.figure()
+    # 4.2 生成词云(绘制图像)
+    """
+        :param1 生成图像的数据
+        :param2 设置图像插值方法：双线性插值
+    """
+    plt.imshow(wordcloud , interpolation='bilinear')
+    # 4.3 隐藏坐标轴
+    plt.axis('off')
+    # 4.4 显示图像
+    plt.show()
+
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试：训练集 和 测试集的 标签分布的 可视化统计
