@@ -133,6 +133,20 @@ def dm03_sns_stripplot() :
     plt.title('测试集正负样本长度散点分布')
     plt.show()
 
+# todo 4. 定义函数 ，获取： 训练集 和 测试集的 词汇总数
+def dm04_get_word_count() :
+    # 1. 读取训练集和测试集
+    train_data = pd.read_csv('data/train.tsv' , sep = '\t')
+    dev_data = pd.read_csv('data/dev.tsv' , sep = '\t')
+
+    # 2. 统计 训练集的词汇总数（去重后的）
+    train_vocab = set(chain(*map(lambda x : jieba.lcut(x) , train_data['sentence'])))
+    print(f'训练集共包含不同词汇总数: {len(train_vocab)}')
+
+    # 3. 统计 测试集的词汇总数（去重后的）
+    valid_vocal = set(chain(*map(lambda x : jieba.lcut(x) , dev_data['sentence'])))
+    print(f'测试集共包含不同词汇总数: {len(valid_vocal)}')
+
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试：训练集 和 测试集的 标签分布的 可视化统计
@@ -142,5 +156,7 @@ if __name__ == '__main__':
     # dm02_len_sns_displot()
 
     # 3. 测试： 训练集 和 测试集的 正负样本长度散点分布
-    dm03_sns_stripplot()
+    # dm03_sns_stripplot()
 
+    # 4. 测试： 训练集 和 测试集的 词汇统计
+    dm04_get_word_count()
