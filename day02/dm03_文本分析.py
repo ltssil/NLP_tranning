@@ -104,13 +104,43 @@ def dm02_len_sns_displot() :
     plt.title('测试集句子长度分布 —— 密度曲线图')
     plt.show()
 
-# todo n. 测试代码
+# todo 3. 定义函数，实现： 训练集 和 测试集的 正负样本的长度散点分布
+def dm03_sns_stripplot() :
+    # 1. 读取训练集 和 测试集
+    train_data = pd.read_csv('data/train.tsv' , sep = '\t')
+    dev_data = pd.read_csv('data/dev.tsv' , sep = '\t')
 
+    # 2. 获取训练集数据长度列
+    train_data['sentence_length'] = list(map(lambda x : len(x) , train_data['sentence']))
+
+    # 3. 获取测试集数据长度列
+    dev_data['sentence_length'] = list(map(lambda x : len(x) , dev_data['sentence']))
+
+    # 4. 统计正负样本长度的 散点分布
+    # 训练集
+    """
+        :param1 x轴标签
+        :param2 y轴标签
+        :param3 数据集
+        :param4 用于分组的字段，即：不同组颜色不同
+    """
+    sns.stripplot(x='label' , y='sentence_length' , data=train_data , hue='label')
+    plt.title('训练集正负样本长度散点分布')
+    plt.show()
+
+    # 测试集
+    sns.stripplot(x='label' , y='sentence_length' , data=dev_data)
+    plt.title('测试集正负样本长度散点分布')
+    plt.show()
+
+# todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试：训练集 和 测试集的 标签分布的 可视化统计
     # dm01_label_sns_countplot()
 
     # 2. 测试： 训练集 和 测试集的 句子长度分布的 可视化统计
-    dm02_len_sns_displot()
+    # dm02_len_sns_displot()
 
+    # 3. 测试： 训练集 和 测试集的 正负样本长度散点分布
+    dm03_sns_stripplot()
 
