@@ -147,6 +147,24 @@ def dm04_get_word_count() :
     valid_vocal = set(chain(*map(lambda x : jieba.lcut(x) , dev_data['sentence'])))
     print(f'测试集共包含不同词汇总数: {len(valid_vocal)}')
 
+# todo 5. 定义函数， 实现： 训练集 和 测试集的 高频形容词此u你
+# todo 5.1 定义函数 ， 获取文本中的形容词列表
+def get_a_list(text) :
+    # 1. 定义空列表 用于存储文本中的形容词
+    a_list = []
+
+    # 2. 使用jieba的词性标注功能，切分文本，并遍历获取到的每个词
+    for value in pseg.lcut(text):       # text = '一个句子'
+        # print(f'value: {value}')                # 词 词性
+        # print(f'value.word : {value.word}')     # 词
+        # print(f'value.flag : {value.flag}')     # 词性
+        # 3. 判断词性是否是形容词，如果是，就添加到列表中
+        if value.flag == 'a':
+            a_list.append(value.word)
+
+    # 4. 返回列表
+    return a_list
+
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试：训练集 和 测试集的 标签分布的 可视化统计
@@ -159,4 +177,7 @@ if __name__ == '__main__':
     # dm03_sns_stripplot()
 
     # 4. 测试： 训练集 和 测试集的 词汇统计
-    dm04_get_word_count()
+    # dm04_get_word_count()
+
+    # 5. 测试： 训练集 和 测试集 的高频形容词词云
+    get_a_list()
