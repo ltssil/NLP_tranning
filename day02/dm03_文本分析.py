@@ -59,12 +59,58 @@ def dm01_label_sns_countplot() :
     plt.tight_layout()
     plt.show()
 
+# todo 2. 定义函数，实现： 训练集 和 测试集的 句子长度分布的 可视化统计
+def dm02_len_sns_displot() :
+    # 1. 读取训练集和测试集测试集
+    train_data = pd.read_csv('data/train.tsv' , sep = '\t')
+    dev_data = pd.read_csv('data/dev.tsv' , sep = '\t')
+
+    # 2. 计算训练集的 每个句子的 长度
+    # 思路1 ： map() 函数的方式实现
+    # train_data['sentence_length'] = list(map(函数对象的功能是 获取句子长度 ， 句子))
+    train_data['sentence_length'] = list(map(lambda x : len(x) , train_data['sentence']))
+    # print(train_data.head())
+
+    # 思路2 ： apply()函数的方式实现
+    # train_data['sentence_length'] = train_data['sentence'].apply(lambda x : len(x))
+    # print(train_data.head())
+
+    # 3. 绘制训练集的句子长度分布
+    # 3.1 计数柱状图
+    sns.countplot(x='sentence_length', data=train_data)
+    plt.title('训练集句子长度分布 —— 计数柱状图')
+    plt.xticks([])      # 隐藏x轴刻度值
+    plt.show()
+    # 3.2 密度曲线图
+    # 旧版
+    # sns.displot(x='sentence_length', data=train_data)
+    # plt.yticks([])
+    # plt.show()
+
+    # 新版 histplot() 直方图
+    sns.histplot(x='sentence_length', data=train_data , kde=True)
+    plt.title('训练集句子长度分布 —— 密度曲线图')
+    plt.show()
+
+    # 4. 计算测试集 每个句子的 长度
+    dev_data['sentence_length'] = list(map(lambda x : len(x) , dev_data['sentence']))
+    # 4.1 计数柱状图
+    sns.countplot(x='sentence_length', data=dev_data)
+    plt.title('测试集句子长度分布 —— 计数柱状图')
+    plt.xticks([])
+    plt.show()
+    # 4.2 密度曲线图
+    sns.histplot(x='sentence_length', data=dev_data, kde=True)
+    plt.title('测试集句子长度分布 —— 密度曲线图')
+    plt.show()
+
 # todo n. 测试代码
 
 if __name__ == '__main__':
     # 1. 测试：训练集 和 测试集的 标签分布的 可视化统计
-    dm01_label_sns_countplot()
+    # dm01_label_sns_countplot()
 
-
+    # 2. 测试： 训练集 和 测试集的 句子长度分布的 可视化统计
+    dm02_len_sns_displot()
 
 
