@@ -24,6 +24,10 @@ def dm01_map() :
     result2 = list(map(lambda x : x + 2 , [10 , 20 , 30]))
     print(f"result2 : {result2}")       # result2 : <map object at 0x00000211A4F688E0>
 
+
+
+
+
 # todo n. 测试代码
 if __name__ == '__main__':
     # 1. 测试map()函数的用法
